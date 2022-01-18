@@ -1,0 +1,29 @@
+name: Create SQL Tables
+ 
+on:
+  push:
+    branches: [ rds_python ]
+
+env:
+  RDS_DB: ${{ secrets.RDS_DB }}
+  RDS_HOST: ${{ secrets.RDS_HOST }}
+  RDS_USER: ${{ secrets.RDS_USER }}
+  RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
+  RDS_PORT: ${{ secrets.RDS_PORT }}
+
+jobs:
+  create_sql_tables_job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run script
+        run: python src/create_sql_tables.py
+  
