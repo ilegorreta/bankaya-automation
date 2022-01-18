@@ -30,11 +30,6 @@ resource "aws_dynamodb_table" "items-table" {
     type = "S"
   }
 
-  attribute {
-    name = "price"
-    type = "N"
-  }
-
   ttl {
     attribute_name = "TimeToExist"
     enabled        = false
@@ -55,11 +50,6 @@ resource "aws_dynamodb_table" "items-bought-table" {
   attribute {
     name = "customer"
     type = "S"
-  }
-
-  attribute {
-    name = "price"
-    type = "N"
   }
 
   ttl {
