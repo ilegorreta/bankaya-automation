@@ -12,6 +12,10 @@ jobs:
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: scripts
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -29,8 +33,6 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-        with:
-          tf_actions_working_dir: 'deploy'
       
       - name: Terraform Validate
         id: validate
@@ -40,8 +42,6 @@ jobs:
         id: plan
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color
-        with:
-          tf_actions_working_dir: 'deploy'
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
@@ -74,5 +74,3 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
-        with:
-          tf_actions_working_dir: 'deploy'
