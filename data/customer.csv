@@ -1,0 +1,4 @@
+customer_id,first_name,last_name,phone_number,curp,rfc,address
+1,alice,acevedo,5512345,alice123,alice123bf6,cdmx123
+2,bob,buendia,5598765,bob123,bob123cl8,mty123
+3,craig,ceballos,5501234,craig123,craig123md4,gdl123
