@@ -7,7 +7,7 @@ import os
 TABLE_NAMES = ['customer', 'item', 'orders']
 
 def table_definitons():
-    """create tables in the PostgreSQL database"""
+    """Create table definitons for the PostgreSQL database"""
     commands = [
         """
         CREATE TABLE IF NOT EXISTS customer(
@@ -45,7 +45,9 @@ def get_postgres_connection(database, host, user, password, port):
     return connection
 
 def main():
+    """Create tables (if not exist) in Postgres RDS Instance and insert data based on CSV files"""
     try:
+        # Init RDS connection
         conn = get_postgres_connection(
             os.getenv("RDS_DB"), 
             os.getenv("RDS_HOST"), 
@@ -54,14 +56,18 @@ def main():
             os.getenv("RDS_PORT")
             )
         cursor = conn.cursor()
+        # Get CREATE table definitions
         commands = table_definitons()
-        # Create statements
+        # Execute CREATE TABLE statements
         for command in commands:
             cursor.execute(command)
-        # Insert Statements from CSV files
+        # Insert data from CSV files into RDS tables
         for table in TABLE_NAMES:
+            # Read CSV files
             with open(f'data/sql/{table}.csv', 'r') as row:
-                next(row) # Skip the header row.
+                # Skip the header row
+                next(row)
+                # Insert data
                 cursor.copy_from(row, table, sep=',')
         # Close communication with RDS
         cursor.close()

@@ -1,18 +1,16 @@
-name: Create SQL Tables
+name: NO-SQL Workflow
  
 on:
   push:
-    branches: [ rds_python ]
+    branches: [ nosql_pipeline ]
 
 env:
-  RDS_DB: ${{ secrets.RDS_DB }}
-  RDS_HOST: ${{ secrets.RDS_HOST }}
-  RDS_USER: ${{ secrets.RDS_USER }}
-  RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
-  RDS_PORT: ${{ secrets.RDS_PORT }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
 jobs:
-  create_sql_tables_job:
+  no_sql_pipeline_job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,5 +23,4 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Run script
-        run: python src/create_sql_tables.py
-  
+        run: python src/nosql_pipeline.py

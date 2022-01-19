@@ -1,0 +1,31 @@
+name: ETL Workflow (SQL & NO-SQL)
+ 
+on:
+  push:
+    branches: [ etl_pipeline ]
+
+env:
+  RDS_DB: ${{ secrets.RDS_DB }}
+  RDS_HOST: ${{ secrets.RDS_HOST }}
+  RDS_USER: ${{ secrets.RDS_USER }}
+  RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
+  RDS_PORT: ${{ secrets.RDS_PORT }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+jobs:
+  etl_pipeline_job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run script
+        run: python src/etl_pipeline.py
