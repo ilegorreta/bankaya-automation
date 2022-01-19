@@ -2,7 +2,7 @@ name: Create SQL Tables
  
 on:
   push:
-    branches: [ rds_python ]
+    branches: [ etl_pipeline ]
 
 env:
   RDS_DB: ${{ secrets.RDS_DB }}
