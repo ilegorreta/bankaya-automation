@@ -13,5 +13,3 @@ RUN pip install --no-cache-dir -r /app/requirements.txt && \
     chown -R appuser /app 
 
 USER appuser
-
-COPY create_sql_tables.py /app

@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import psycopg2
 import os
 
@@ -57,7 +60,7 @@ def main():
             cursor.execute(command)
         # Insert Statements from CSV files
         for table in TABLE_NAMES:
-            with open(f'data/{table}.csv', 'r') as row:
+            with open(f'data/sql/{table}.csv', 'r') as row:
                 next(row) # Skip the header row.
                 cursor.copy_from(row, table, sep=',')
         # Close communication with RDS
